@@ -2,7 +2,6 @@ package com.thor.demo.Menu;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thor.demo.User;
 
@@ -24,22 +23,21 @@ public class Driver {
             user.setName(name);
             System.out.println("you have chosen: " + name);
 
-            user.setName(name);
-            user.setHealth(user.getHealth());
-            user.setStrength(user.getStrength());
-
             saveProgress(user);
-            System.out.println("SavedProgress");
             return user;
         } else {
 
 
             System.out.println("Select Character or create new: ");
             user = getExistingUsers();
+
+            /*
+            //TODO List Users
            listExistingUsers(user);
             //TODO Select User
             user = selectUser(user, sc);
-            //TODO return User
+            //ODO return User
+            */
         }
 
         //TODO have player select existing user or make new
@@ -47,34 +45,20 @@ public class Driver {
     }
 
 
-    public static void playGame(User user){
-
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter(file.getAbsolutePath());
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
+    public static void playGame(User user) throws IOException {
 
         Scanner sc = new Scanner(System.in);
         String play = "yes";
-        String continueplay = "yes";
-        while (play.equalsIgnoreCase(continueplay)){
-            System.out.println("Continue playing?");
-            continueplay = sc.nextLine();
-
+        while (play.equalsIgnoreCase("yes")){
+            System.out.println("Continue playing[yes/no]?");
+            play = sc.nextLine();
 
 
         }
-        System.out.println("Thank you for playing");
-        System.out.println(user.getName());
+        System.out.println("Thank you for playing " + user.getName());
 
-        writer.println("Name:" + user.getName());
-        writer.println("Health:" + user.getHealth());
-        writer.println("Strength:" + user.getStrength());
-        writer.println();
-         writer.close();
+        saveProgress(user);
+
     }
 
     private static <exception extends Throwable> void saveProgress(User user) throws IOException {
@@ -84,18 +68,13 @@ public class Driver {
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(file, user);
             FileWriter fw = new FileWriter(file);
-            PrintWriter writer = new PrintWriter(
-                                        new BufferedWriter(fw));
+            PrintWriter writer = new PrintWriter(fw);
+
             writer.println(user.toString());
-            System.out.println("name:" + user.getName());
-            writer.println(user.getName());
-            System.out.println("health:" + user.getHealth());
-            writer.println(user.getHealth());
-            System.out.println("strength:" + user.getStrength());
-            writer.println(user.getStrength());
 
             fw.close();
             writer.close();
+            System.out.println("SavedProgress");
         }
         catch (Exception e){
            System.out.println("Error saving progress");
@@ -107,34 +86,23 @@ public class Driver {
         try {
             ObjectMapper mapper = new ObjectMapper();
             InputStream inputStream = new FileInputStream(file.getPath());
-            return mapper.readValue(inputStream,User.class);
 
+
+
+
+            ArrayList userList = new ArrayList<User>();
+
+            userList.add(mapper.readValue(json, User.class ));
+
+
+            System.out.println(mapper.readValue(inputStream,User.class));
+            System.out.println("check output of reading user list from file");
+
+            return mapper.readValue(inputStream,User.class);
 
             } catch (Exception e) {
             //test
         }
-        /*
-        try {
-        //TODO Find data type to read users back into from file.
-
-            ArrayList<User> userList = (ArrayList<User>);
-            for (User u : userList) {
-                System.out.println(u.toString());
-                System.out.println();
-            }
-            fis.close();
-            ois.close();
-            System.out.println("returned within try");
-            return userList;
-
-        }catch (EOFException e){
-                //Exception
-                System.out.println("Catch for getExistingUsers");
-            } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        */
-
         System.out.println("returned end of getExistingUsers method");
         //TODO how to get user list in scope to return here
         return null;

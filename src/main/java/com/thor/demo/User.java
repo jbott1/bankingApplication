@@ -5,8 +5,6 @@ public class User implements Serializable {
      String name;
      int strength;
      int health;
-
-
     public User(){
         super();
         this.name = "*";
@@ -14,10 +12,13 @@ public class User implements Serializable {
         this.strength = 10;
     }
 
-    @Override public String toString()
-    {
-        return "User [name=" + name + ", health=" + health
-                + ", strength=" + strength + "]";
+    @Override
+    public String toString() {
+        return  name + "{" +
+                "name='" + name + '\'' +
+                ", strength=" + strength +
+                ", health=" + health +
+                '}';
     }
     public int getHealth() {
         return health;
