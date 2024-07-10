@@ -1,0 +1,4 @@
+Name:bebop
+Health:100
+Strength:10
+
