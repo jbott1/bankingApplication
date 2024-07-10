@@ -13,6 +13,12 @@ public class User implements Serializable {
         this.health = 100;
         this.strength = 10;
     }
+
+    @Override public String toString()
+    {
+        return "User [name=" + name + ", health=" + health
+                + ", strength=" + strength + "]";
+    }
     public int getHealth() {
         return health;
     }
