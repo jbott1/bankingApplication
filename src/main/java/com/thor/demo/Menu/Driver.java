@@ -1,22 +1,22 @@
 package com.thor.demo.Menu;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thor.demo.User;
 
 public class Driver {
 
-    static File  file = new File ("src/main/resources/userData.txt");
+    static File file = new File("src/main/resources/userData.txt");
 
     public static User startGame() throws IOException {
         User user = new User();
-
         //TODO how to avoid needing to declare here
 
         Scanner sc = new Scanner(System.in);
         //no data create new char defaults
-
         if (file.length() == 0) {
             System.out.println("What would you like to name your character?");
             String name = sc.next();
@@ -26,20 +26,13 @@ public class Driver {
             saveProgress(user);
             return user;
         } else {
-
-
             System.out.println("Select Character or create new: ");
-            user = getExistingUsers();
-
-            /*
             //TODO List Users
-           listExistingUsers(user);
+            listExistingUsers();
             //TODO Select User
-            user = selectUser(user, sc);
-            //ODO return User
-            */
+            //user = selectUser(user, sc);
+            //TODO return User
         }
-
         //TODO have player select existing user or make new
         return user;
     }
@@ -49,7 +42,7 @@ public class Driver {
 
         Scanner sc = new Scanner(System.in);
         String play = "yes";
-        while (play.equalsIgnoreCase("yes")){
+        while (play.equalsIgnoreCase("yes")) {
             System.out.println("Continue playing[yes/no]?");
             play = sc.nextLine();
 
@@ -64,51 +57,22 @@ public class Driver {
     private static <exception extends Throwable> void saveProgress(User user) throws IOException {
 
         try {
-
+                //TODO need to prevent overwritting of old characters
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(file, user);
             FileWriter fw = new FileWriter(file);
             PrintWriter writer = new PrintWriter(fw);
 
-            writer.println(user.toString());
+            writer.println(user.toString() + "used writer");
 
             fw.close();
             writer.close();
             System.out.println("SavedProgress");
-        }
-        catch (Exception e){
-           System.out.println("Error saving progress");
+        } catch (Exception e) {
+            System.out.println("Error saving progress");
         }
 
     }
-    private static User getExistingUsers() throws IOException {
-
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            InputStream inputStream = new FileInputStream(file.getPath());
-
-
-
-
-            ArrayList userList = new ArrayList<User>();
-
-            userList.add(mapper.readValue(json, User.class ));
-
-
-            System.out.println(mapper.readValue(inputStream,User.class));
-            System.out.println("check output of reading user list from file");
-
-            return mapper.readValue(inputStream,User.class);
-
-            } catch (Exception e) {
-            //test
-        }
-        System.out.println("returned end of getExistingUsers method");
-        //TODO how to get user list in scope to return here
-        return null;
-    }
-
-
 
 
 
@@ -119,9 +83,34 @@ public class Driver {
         return userList.get(selection);
     }
 
-    private static void listExistingUsers(ArrayList<User> users){
-        for (User user : users) {
-            System.out.println(user + "\n");
+    private static void listExistingUsers() {
+        try {
+
+            ObjectMapper mapper = new ObjectMapper();
+            InputStream inputStream = new FileInputStream(file.getPath());
+
+
+
+            byte[] array = new byte[inputStream.available()];
+            inputStream.read(array);
+            String data = new String(array);
+            System.out.println(data + "From data");
+
+            ArrayList userList = new ArrayList<User>();
+            System.out.println("From Mapper" + mapper.readValue(inputStream, User.class));
+            userList.add(mapper.readValue(inputStream, User.class));
+
+            System.out.println("From User Array List" + userList);
+            //Utils.stringToJSON(data);
+            //ArrayList userList = new ArrayList<User>();
+            //userList.add(mapper.readValue(json, User.class));
+            // System.out.println(mapper.readValue(inputStream,User.class) + "From mapper");
+            // System.out.println("check output of reading user list from file");
+            //TODO Select user, assign and return here
+
+
+        } catch (Exception e) {
+            //test
         }
 
     }

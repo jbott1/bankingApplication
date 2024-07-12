@@ -1,10 +1,10 @@
 package com.thor.demo;
 import java.io.Serializable;
-public class User implements Serializable {
+public class User {
 
-     String name;
-     int strength;
-     int health;
+     private String name;
+     private int strength;
+     private int health;
     public User(){
         super();
         this.name = "*";
