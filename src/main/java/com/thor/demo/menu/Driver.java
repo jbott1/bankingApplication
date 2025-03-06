@@ -1,18 +1,20 @@
-package com.thor.demo.Menu;
+package com.thor.demo.menu;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thor.demo.User;
+import com.thor.demo.model.User;
 
 public class Driver {
 
     static File file = new File("src/main/resources/userData.txt");
 
     public static User startGame() throws IOException {
-        User user = new User();
+        //User user = new User();
         //TODO how to avoid needing to declare here
 
         Scanner sc = new Scanner(System.in);
@@ -63,7 +65,7 @@ public class Driver {
             FileWriter fw = new FileWriter(file);
             PrintWriter writer = new PrintWriter(fw);
 
-            writer.println(user.toString() + "used writer");
+            writer.println(user.toString());
 
             fw.close();
             writer.close();
@@ -96,11 +98,18 @@ public class Driver {
             String data = new String(array);
             System.out.println(data + "From data");
 
-            ArrayList userList = new ArrayList<User>();
+
+            JsonFactory jfactory = new JsonFactory();
+            JsonParser jParser = jfactory.createJsonParser(inputStream);
+
+            ArrayList userList = new ArrayList<>();
+
+            User user = mapper.readValue(jParser, User.class);
+            userList.add(user);
             System.out.println("From Mapper" + mapper.readValue(inputStream, User.class));
             userList.add(mapper.readValue(inputStream, User.class));
 
-            System.out.println("From User Array List" + userList);
+            System.out.println("From User Array List" + mapper.writerWithDefaultPrettyPrinter().writeValueAsString(user));
             //Utils.stringToJSON(data);
             //ArrayList userList = new ArrayList<User>();
             //userList.add(mapper.readValue(json, User.class));

@@ -1,1 +1,1 @@
-Jim{name='Jim', strength=10, health=100}
+*{name='*', strength=10, health=100}

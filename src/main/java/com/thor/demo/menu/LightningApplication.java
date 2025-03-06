@@ -1,6 +1,6 @@
-package com.thor.demo;
-import com.thor.demo.Menu.Driver;
+package com.thor.demo.menu;
 
+import com.thor.demo.model.User;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

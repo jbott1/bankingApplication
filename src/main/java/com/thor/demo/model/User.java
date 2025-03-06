@@ -1,25 +1,42 @@
-package com.thor.demo;
-import java.io.Serializable;
-public class User {
+package com.thor.demo.model;
 
-     private String name;
-     private int strength;
-     private int health;
-    public User(){
-        super();
-        this.name = "*";
-        this.health = 100;
-        this.strength = 10;
+import java.io.Serializable;
+
+public class User implements Serializable {
+
+    private final String charId;
+    private String name;
+    private String items;
+    private int strength;
+    private int health;
+
+
+    public User(String charId, String name, String items, int health, int strength) {
+
+        this.charId = charId;
+        this.name = name;
+        this.items = items;
+        this.health = health;
+        this.strength = strength;
     }
 
     @Override
     public String toString() {
-        return  name + "{" +
+        return name + "{" +
                 "name='" + name + '\'' +
                 ", strength=" + strength +
                 ", health=" + health +
                 '}';
     }
+
+    public String getCharId() {
+        return charId;
+    }
+
+    public String getItems() {
+        return items;
+    }
+
     public int getHealth() {
         return health;
     }
