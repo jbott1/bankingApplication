@@ -1,1 +1,0 @@
-*{name='*', strength=10, health=100}
